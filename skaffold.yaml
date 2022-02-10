@@ -1,0 +1,19 @@
+apiVersion: skaffold/v1
+kind: Config
+build:
+  local:
+    push: true
+  artifacts:
+  - image: gcr.io/veer-dil1/quarkfirst
+    docker:
+      dockerfile: ./src/main/docker/Dockerfile.debug
+      noCache: false
+    sync:
+      infer:
+       - "**/*.java"
+       - 'pom.xml'
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes/deployment.yaml
+      - kubernetes/service.yaml

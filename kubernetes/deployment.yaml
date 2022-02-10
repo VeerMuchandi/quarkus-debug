@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quarkfirst-deployment
+spec:
+  selector:
+    matchLabels:
+      app: quarkfirst
+  template:
+    metadata:
+      annotations:
+        debug.cloud.google.com/config: '{"quarkfirst":{"runtime":"jvm","ports":{"jdwp":5005}}}'    
+      labels:
+        app: quarkfirst
+    spec:
+      containers:
+      - name: quarkfirst
+        image: gcr.io/veer-dil1/quarkfirst:latest
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+        - containerPort: 5005
+
